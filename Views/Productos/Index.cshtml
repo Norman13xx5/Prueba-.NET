@@ -1,0 +1,105 @@
+@model IEnumerable<Jiji.Models.Producto>
+@using Jiji.Helpers
+
+@{
+    ViewData["Title"] = "Productos";
+}
+
+<h1>Producto</h1>
+
+<p>
+    <a asp-action="Create" class="btn btn-success">Crear Nueva Producto</a>
+</p>
+<div>
+    <a asp-controller="Administrador" asp-action="Index">Back to List</a>
+</div>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Nombre)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Idorden)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Idcategoria)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Idempresa)
+            </th>
+            <th>
+                Valor CO
+            </th>
+            <th>
+
+                Valor US
+            </th>
+            <th>
+                Valor FR
+            </th>
+            <th>
+                Valor JP
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Nombre)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.IdordenNavigation.Id)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.IdcategoriaNavigation.Nombre)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.IdempresaNavigation.Nombre)
+                </td>
+                <td>
+                    @Html.DisplayCurrency(item.Valor, "es-CO")
+                </td>
+                <td>
+                    @Html.DisplayCurrency(item.Valor, "es-US")
+                </td>
+                <td>
+                    @Html.DisplayCurrency(item.Valor, "es-FR")
+                </td>
+                <td>
+                    @Html.DisplayCurrency(item.Valor, "es-JP")
+                </td>
+                <td>
+                    <a asp-action="Edit" class="btn btn-warning" asp-route-id="@item.Id">Edit</a> |
+                    <a asp-action="Details" class="btn btn-primary" asp-route-id="@item.Id">Details</a> |
+                    <a class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal-@item.Id">Delete</a>
+                </td>
+            </tr>
+
+            <div class="modal fade" id="deleteModal-@item.Id" tabindex="-1" aria-labelledby="deleteModalLabel"
+                aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="deleteModalLabel">Confirmar Eliminación</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            ¿Estás seguro de que deseas eliminar esta producto?
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                            <form asp-action="Delete" method="post" asp-route-id="@item.Id">
+                                <button type="submit" class="btn btn-danger">Eliminar</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+        
+    </tbody>
+</table>

@@ -1,0 +1,40 @@
+﻿@model IEnumerable<Jiji.Models.Ordene>
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="#">Usuario Panel</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+            aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <form class="d-flex ms-auto" asp-controller="Auth" asp-action="Logout" method="post">
+                <button type="submit" class="btn btn-outline-danger">Cerrar sesión</button>
+            </form>
+        </div>
+    </div>
+</nav>
+<h1 class="mb-4">Órdenes del Usuario</h1>
+
+<table class="table table-striped table-bordered">
+    <thead class="thead-dark">
+        <tr>
+            <th>ID</th>
+            <th>Nombre</th>
+            <th>Fecha de Creación</th>
+            <th>Acciones</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var orden in Model)
+        {
+            <tr>
+                <td>@orden.Id</td>
+                <td>@orden.Nombre</td>
+                <td>@orden.CreatedAt?.ToString("g")</td>
+                <td>
+                    <a asp-action="Details" class="btn btn-warning" asp-route-id="@orden.Id">Detalles</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
